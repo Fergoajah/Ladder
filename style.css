@@ -1,0 +1,141 @@
+:root {
+    --board-bg: #f0f8ff;
+    --player1-color: #ff4136;
+    --player2-color: #0074d9;
+    --snake-head: #d9534f;
+    --ladder-start: #5cb85c;
+    --cell-border: #ccc;
+    --text-color: #333;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.game-container {
+    width: 95%;
+    max-width: 600px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+h1 {
+    color: var(--text-color);
+}
+
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Makes the board always square */
+    border: 2px solid #333;
+    margin: 20px auto;
+    position: relative;
+    background-color: var(--board-bg);
+}
+
+.cell {
+    border: 1px solid var(--cell-border);
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 0.8em;
+    font-weight: bold;
+    position: relative;
+}
+
+.cell span {
+    padding: 2px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+}
+
+.snake-head { background-color: var(--snake-head); }
+.ladder-start { background-color: var(--ladder-start); }
+
+.player {
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    position: absolute;
+    transition: all 0.5s ease-in-out;
+    z-index: 10;
+}
+
+#player1 {
+    background-color: var(--player1-color);
+    border: 2px solid darkred;
+}
+
+#player2 {
+    background-color: var(--player2-color);
+    border: 2px solid darkblue;
+    /* Offset to be visible if on the same cell */
+    transform: translate(40%, 40%);
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.controls p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+#roll-dice-btn {
+    padding: 12px 25px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border: none;
+    background-color: #4A90E2;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#roll-dice-btn:hover {
+    background-color: #357ABD;
+}
+
+#roll-dice-btn:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+#winner-message {
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: var(--ladder-start);
+    font-weight: bold;
+}
+
+#winner-message button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+    h1 { font-size: 1.5em; }
+    .cell { font-size: 0.6em; }
+    .controls p { font-size: 1em; }
+    #roll-dice-btn { padding: 10px 20px; font-size: 1em; }
+}

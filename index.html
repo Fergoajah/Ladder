@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ular Tangga PWA</title>
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <meta name="theme-color" content="#4A90E2">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Ular Tangga 🐍🪜</h1>
+        
+        <div id="game-board"></div>
+        
+        <div class="controls">
+            <p id="player-turn">Giliran: Pemain 1</p>
+            <p id="dice-result">Kocok dadu untuk memulai!</p>
+            <button id="roll-dice-btn">Kocok Dadu 🎲</button>
+        </div>
+        
+        <div id="winner-message" class="hidden">
+            <p></p>
+            <button onclick="location.reload()">Main Lagi</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
