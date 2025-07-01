@@ -1,6 +1,6 @@
 // sw.js
 
-const CACHE_VERSION = 7; // UBAH ANGKA INI (misalnya dari 6 menjadi 7)
+const CACHE_VERSION = 8; // UBAH ANGKA INI (misalnya dari 6 menjadi 7)
 const STATIC_CACHE = `ular-tangga-static-v${CACHE_VERSION}`;
 
 // Aset inti yang wajib ada agar aplikasi bisa berjalan
