@@ -176,3 +176,21 @@ h1 {
     background-color: #357ABD;
     transform: translateY(-2px);
 }
+/* ... CSS Anda yang sudah ada ... */
+
+#install-btn {
+    background-color: #f1c40f; /* Warna kuning */
+    color: white;
+    margin-top: 15px; /* Memberi sedikit jarak */
+    padding: 15px 25px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#install-btn:hover {
+    background-color: #f39c12;
+    transform: translateY(-2px);
+}
