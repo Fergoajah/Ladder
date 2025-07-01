@@ -41,8 +41,8 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(registration => console.log('ServiceWorker Pendaftaran berhasil:', registration.scope))
-                    .catch(error => console.log('ServiceWorker Pendaftaran gagal:', error));
+                    .then(reg => console.log('Service worker terdaftar.', reg))
+                    .catch(err => console.log('Pendaftaran service worker gagal:', err));
             });
         }
     </script>
