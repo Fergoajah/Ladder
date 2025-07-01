@@ -6,15 +6,20 @@
     <title>Ular Tangga PWA</title>
     
     <link rel="manifest" href="manifest.json">
-    
     <meta name="theme-color" content="#4A90E2">
-    
     <link rel="stylesheet" href="style.css">
-    
     <link rel="apple-touch-icon" href="images/icon-192x192.png">
 </head>
 <body>
-    <div class="game-container">
+    <div id="mode-selection" class="game-container">
+        <h1>Pilih Mode Permainan</h1>
+        <div class="mode-buttons">
+            <button id="pvc-btn">Pemain vs Komputer</button>
+            <button id="pvp-btn">Pemain vs Pemain</button>
+        </div>
+    </div>
+
+    <div id="game-container" class="game-container hidden">
         <h1>Ular Tangga 🐍🪜</h1>
         
         <div id="game-board"></div>
@@ -33,7 +38,6 @@
 
     <script src="script.js"></script>
     <script>
-        // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')

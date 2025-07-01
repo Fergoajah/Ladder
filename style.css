@@ -139,3 +139,40 @@ h1 {
     .controls p { font-size: 1em; }
     #roll-dice-btn { padding: 10px 20px; font-size: 1em; }
 }
+
+/* Tambahkan di akhir file style.css */
+.mode-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.mode-buttons button {
+    padding: 15px 25px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#pvc-btn {
+    background-color: #5cb85c;
+    color: white;
+}
+
+#pvc-btn:hover {
+    background-color: #4cae4c;
+    transform: translateY(-2px);
+}
+
+#pvp-btn {
+    background-color: #4A90E2;
+    color: white;
+}
+
+#pvp-btn:hover {
+    background-color: #357ABD;
+    transform: translateY(-2px);
+}
