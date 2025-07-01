@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ular-tangga-v1';
+const CACHE_NAME = 'ular-tangga-v2'; // NAMA DIUBAH DI SINI
 const urlsToCache = [
     '/',
     '/index.html',
@@ -34,7 +34,6 @@ self.addEventListener('fetch', event => {
             })
     );
 });
-
 
 // Clean up old caches
 self.addEventListener('activate', event => {
