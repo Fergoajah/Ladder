@@ -35,6 +35,7 @@ self.addEventListener('fetch', event => {
     );
 });
 
+
 // Clean up old caches
 self.addEventListener('activate', event => {
     const cacheWhitelist = [CACHE_NAME];
