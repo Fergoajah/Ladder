@@ -1,6 +1,6 @@
 // sw.js
 
-const CACHE_VERSION = 6; // VERSI BARU UNTUK MEMAKSA UPDATE
+const CACHE_VERSION = 7; // UBAH ANGKA INI (misalnya dari 6 menjadi 7)
 const STATIC_CACHE = `ular-tangga-static-v${CACHE_VERSION}`;
 
 // Aset inti yang wajib ada agar aplikasi bisa berjalan
@@ -10,6 +10,8 @@ const CORE_ASSETS = [
     './style.css',
     './script.js',
     './manifest.json',
+    './images/icon-192x192.png', // Pastikan ikon juga di-cache
+    './images/icon-512x512.png'
 ];
 
 // 1. Saat instalasi, simpan aset inti ke cache
