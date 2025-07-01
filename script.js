@@ -152,11 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rollDiceBtn.addEventListener('click', () => {
         const currentPlayer = players[currentPlayerIndex];
-        if (currentPlayer.isAI) return; // Mencegah klik saat giliran AI
+        if (currentPlayer.isAI) return;
 
         rollDiceBtn.disabled = true;
         const steps = rollDice();
         movePlayer(currentPlayer, steps);
     });
-    
 });
