@@ -10,8 +10,8 @@ const CORE_ASSETS = [
     './style.css',
     './script.js',
     './manifest.json',
-    './images/icon-192x192.png', // Pastikan ikon juga di-cache
-    './images/icon-512x512.png'
+    './icons/icons-192x192.png', // Pastikan ikon juga di-cache
+    './icons/icons-512x512.png'
 ];
 
 // 1. Saat instalasi, simpan aset inti ke cache
