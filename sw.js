@@ -1,8 +1,7 @@
 // sw.js
 
-const CACHE_VERSION = 4; // Versi cache dinaikkan untuk memaksa pembaruan
+const CACHE_VERSION = 5; // Versi cache dinaikkan untuk memaksa pembaruan
 const STATIC_CACHE_NAME = `ular-tangga-static-v${CACHE_VERSION}`;
-const DYNAMIC_CACHE_NAME = `ular-tangga-dynamic-v${CACHE_VERSION}`;
 
 // Aset inti aplikasi yang harus selalu ada untuk mode offline
 const CORE_ASSETS = [
@@ -30,28 +29,20 @@ self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys => {
             return Promise.all(keys
-                .filter(key => key !== STATIC_CACHE_NAME && key !== DYNAMIC_CACHE_NAME)
+                .filter(key => key !== STATIC_CACHE_NAME)
                 .map(key => caches.delete(key))
             );
         }).then(() => self.clients.claim())
     );
 });
 
-// Strategi "Network First, falling back to Cache"
+// Strategi "Cache First, falling back to Network"
 self.addEventListener('fetch', event => {
     event.respondWith(
-        caches.open(DYNAMIC_CACHE_NAME).then(cache => {
-            return fetch(event.request).then(networkResponse => {
-                // Jika berhasil dari jaringan, simpan ke cache dinamis dan kembalikan
-                cache.put(event.request.url, networkResponse.clone());
-                return networkResponse;
-            }).catch(() => {
-                // Jika jaringan gagal, cari di cache
-                return caches.match(event.request).then(cacheResponse => {
-                    // Jika ada di cache, kembalikan. Jika tidak, akan gagal (sesuai standar)
-                    return cacheResponse;
-                });
-            });
+        caches.match(event.request).then(cacheResponse => {
+            // Jika aset ditemukan di cache, langsung kembalikan (Cache First)
+            // Jika tidak, ambil dari jaringan
+            return cacheResponse || fetch(event.request);
         })
     );
 });
