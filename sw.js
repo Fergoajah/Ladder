@@ -1,8 +1,11 @@
-const CACHE_VERSION = 3; // Ubah angka ini setiap kali ada pembaruan besar
-const CURRENT_CACHE = `ular-tangga-cache-v${CACHE_VERSION}`;
+// sw.js
 
-// Daftar semua file yang dibutuhkan aplikasi untuk berjalan offline
-const ASSETS_TO_CACHE = [
+const CACHE_VERSION = 4; // Versi cache dinaikkan untuk memaksa pembaruan
+const STATIC_CACHE_NAME = `ular-tangga-static-v${CACHE_VERSION}`;
+const DYNAMIC_CACHE_NAME = `ular-tangga-dynamic-v${CACHE_VERSION}`;
+
+// Aset inti aplikasi yang harus selalu ada untuk mode offline
+const CORE_ASSETS = [
     './',
     './index.html',
     './style.css',
@@ -12,54 +15,43 @@ const ASSETS_TO_CACHE = [
     './images/icon-512x512.png'
 ];
 
-// Saat Service Worker diinstal, simpan semua aset ke cache
+// Saat Service Worker diinstal, simpan semua aset inti ke cache
 self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(CURRENT_CACHE)
-            .then(cache => {
-                console.log('Service Worker: Menyimpan aset ke cache...');
-                return cache.addAll(ASSETS_TO_CACHE);
-            })
-            .then(() => self.skipWaiting()) // Aktifkan Service Worker baru segera
+        caches.open(STATIC_CACHE_NAME).then(cache => {
+            console.log('Service Worker: Menyimpan aset inti ke cache...');
+            return cache.addAll(CORE_ASSETS);
+        }).then(() => self.skipWaiting())
     );
 });
 
-// Saat Service Worker diaktifkan, hapus semua cache lama
+// Saat Service Worker diaktifkan, hapus cache versi lama
 self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (cacheName !== CURRENT_CACHE) {
-                        console.log('Service Worker: Menghapus cache lama:', cacheName);
-                        return caches.delete(cacheName);
-                    }
-                })
+        caches.keys().then(keys => {
+            return Promise.all(keys
+                .filter(key => key !== STATIC_CACHE_NAME && key !== DYNAMIC_CACHE_NAME)
+                .map(key => caches.delete(key))
             );
-        }).then(() => self.clients.claim()) // Ambil alih kontrol halaman
+        }).then(() => self.clients.claim())
     );
 });
 
-// Intercept permintaan jaringan (fetch)
+// Strategi "Network First, falling back to Cache"
 self.addEventListener('fetch', event => {
-    // Hanya proses permintaan GET
-    if (event.request.method !== 'GET') {
-        return;
-    }
-
     event.respondWith(
-        fetch(event.request)
-            .then(networkResponse => {
-                // Jika berhasil dari jaringan, simpan ke cache dan kembalikan respons
-                return caches.open(CURRENT_CACHE).then(cache => {
-                    cache.put(event.request, networkResponse.clone());
-                    return networkResponse;
+        caches.open(DYNAMIC_CACHE_NAME).then(cache => {
+            return fetch(event.request).then(networkResponse => {
+                // Jika berhasil dari jaringan, simpan ke cache dinamis dan kembalikan
+                cache.put(event.request.url, networkResponse.clone());
+                return networkResponse;
+            }).catch(() => {
+                // Jika jaringan gagal, cari di cache
+                return caches.match(event.request).then(cacheResponse => {
+                    // Jika ada di cache, kembalikan. Jika tidak, akan gagal (sesuai standar)
+                    return cacheResponse;
                 });
-            })
-            .catch(() => {
-                // Jika jaringan gagal, coba ambil dari cache
-                console.log(`Service Worker: Gagal mengambil dari jaringan, mencari di cache untuk ${event.request.url}`);
-                return caches.match(event.request);
-            })
+            });
+        })
     );
 });

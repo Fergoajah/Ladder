@@ -15,14 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const boardSize = 100;
     let players = [];
     let currentPlayerIndex = 0;
-    let gameMode = ''; // 'pvc' atau 'pvp'
+    let gameMode = '';
 
     const snakesAndLadders = {
         4: 14, 9: 31, 20: 38, 28: 84, 40: 59, 51: 67, 63: 81, 71: 91,
         17: 7, 54: 34, 62: 19, 64: 60, 87: 24, 93: 73, 95: 75, 99: 78
     };
 
-    // --- Pemilihan Mode ---
     pvpBtn.addEventListener('click', () => {
         gameMode = 'pvp';
         startGame();
@@ -48,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
     }
 
-    // --- Logika Permainan ---
     function createBoard() {
+        board.innerHTML = '';
         const cells = [];
         for (let i = boardSize; i >= 1; i--) cells.push(i);
 
